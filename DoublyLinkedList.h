@@ -39,21 +39,21 @@ public:
 		temp->next = nullptr;
 
 		// Checking if list is empty
-		if (this->head == nullptr)
+		if (head == nullptr)
 		{
-			this->head = temp;
-			this->tail = temp;
+			head = temp;
+			tail = temp;
 			temp->prev = nullptr;
 		} //if
 		else
 		{
 			// There is at least one Node in the list
-			this->tail->next = temp;
-			temp->prev = this->tail;
-			this->tail = temp;
+			tail->next = temp;
+			temp->prev = tail;
+			tail = temp;
 		} //else
 
-		++this->size;
+		++size;
 	} //addNode()
 	
 
@@ -68,7 +68,7 @@ public:
 		temp->next = insertNodeAfter->next;
 		insertNodeAfter->next = temp;
 
-		++this->size;
+		size;
 
 	} //insertNodeAfter()
 
@@ -77,7 +77,7 @@ public:
 	// This is made much easier by the included size variable
 	int getSize()
 	{
-		return this->size;
+		return size;
 	} //getSize()
 
 
@@ -85,7 +85,7 @@ public:
 	// Will return nullptr if the list is empty
 	Node * getHead()
 	{
-		return this->head;
+		return head;
 	} //getHead()
 
 
@@ -93,7 +93,7 @@ public:
 	// Will return nullptr if the list is empty
 	Node * getTail()
 	{
-		return this->tail;
+		return tail;
 	} //getTail()
 
 
@@ -101,7 +101,7 @@ public:
 	// and false if the list is not empty
 	bool isEmpty()
 	{
-		return this->head == nullptr;
+		return head == nullptr;
 	} //isEmpty()
 
 
@@ -111,7 +111,7 @@ public:
 	T maxValue()
 	{
 		// This process is the same for single or doubly linked lists
-		Node * it = this->head;
+		Node * it = head;
 		T maxValue;
 
 		// Checking the edge case where the list is empty
@@ -149,7 +149,7 @@ public:
 	T minValue()
 	{
 		// This process is the same for single or doubly linked lists
-		Node * it = this->head;
+		Node * it = head;
 		T minValue;
 
 		// Checking the edge case where the list is empty
@@ -184,7 +184,7 @@ public:
 	// Prints the list
 	void printList()
 	{
-		Node * it = this->head;
+		Node * it = head;
 
 		std::cout << "NULL <--> ";
 		while (it != nullptr)
@@ -201,22 +201,22 @@ public:
 	void deleteNode(Node * nodeToDelete)
 	{
 		// Case where nodeToDelete is the head node
-		if (nodeToDelete == this->head)
+		if (nodeToDelete == head)
 		{
 			// Node to delete is the head node
 
-			this->head = this->head->next;
-			this->head->prev = nullptr;
+			head = head->next;
+			head->prev = nullptr;
 
 			nodeToDelete->next = nullptr;
 			delete nodeToDelete;
 		} //if
-		else if (nodeToDelete == this->tail)
+		else if (nodeToDelete == tail)
 		{
 			// Node to delete is the tail node
 
-			this->tail = this->tail->prev;
-			this->tail->next = nullptr;
+			tail = tail->prev;
+			tail->next = nullptr;
 
 			nodeToDelete->prev = nullptr;
 			delete nodeToDelete;
@@ -233,7 +233,7 @@ public:
 			delete nodeToDelete;
 		} //else
 
-		--this->size;
+		--size;
 
 	} //nodeToDelete()
 
@@ -251,12 +251,12 @@ public:
 		{
 			// Two pointers act as iterators through the linked list
 			// Two are used to avoid losing our position after each delete
-			Node * current = this->head;
-			Node * temp = this->head;
+			Node * current = head;
+			Node * temp = head;
 			
 			// Good practice
-			this->head = nullptr;
-			this->tail = nullptr;
+			head = nullptr;
+			tail = nullptr;
 
 			// Iterate through and delete all Nodes
 			while (it != nullptr)

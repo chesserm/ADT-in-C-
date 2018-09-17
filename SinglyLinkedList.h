@@ -31,7 +31,7 @@ public:
 	//Copy Constructor
 	LinkedList()
 	{
-
+		
 	} //copy ctor
 
 	// Adds a node to the linked list
@@ -43,15 +43,15 @@ public:
 		temp->next = nullptr; 
 		
 		// Case where Linked List is empty
-		if (this->head == nullptr)
+		if (head == nullptr)
 		{
-			this->head = temp;
-			this->tail = temp;
+			head = temp;
+			tail = temp;
 		} //if
 		else
 		{
-			this->tail->next = temp;
-			this->tail = temp;
+			tail->next = temp;
+			tail = temp;
 		} //else
 
 		++size;
@@ -69,9 +69,9 @@ public:
 		afterThisNode->next = temp;
 
 		// Case where the node to insert after is the tail node
-		if (this->tail == afterThisNode)
+		if (tail == afterThisNode)
 		{
-			this->tail = temp;
+			tail = temp;
 		} //if
 
 		++size;
@@ -81,7 +81,7 @@ public:
 	// Prints the linked list
 	void printList()
 	{
-		Node * temp = this->head;
+		Node * temp = head;
 
 		
 		while (temp != nullptr)
@@ -98,7 +98,7 @@ public:
 	// Checks to see if the linked list is empty
 	bool isEmpty()
 	{
-		return this->head == nullptr;
+		return head == nullptr;
 	} //isEmpty()
 
 
@@ -106,14 +106,14 @@ public:
 	// By keeping a member variable, size, this is much easier than iteration/recusion
 	int getSize()
 	{
-		return this->size;
+		return size;
 	} //getSize()
 
 
 	// Returns a pointer to the head Node of the linked list
 	Node * getHead()
 	{
-		return this->head;
+		return head;
 	} //getHead()
 
 
@@ -121,22 +121,22 @@ public:
 	// REQUIRED: nodeToDelete points to a Node within the linked list
 	void deleteNode(Node * nodeToDelete)
 	{
-		if(nodeToDelete == this->head)
+		if(nodeToDelete == head)
 		{
 			// The nodeToDelete is the head node
 			// If the linked list only contains one node, head will now point to nullptr
-			this->head = this->head->next;
+			head = head->next;
 			nodeToDelete->next = nullptr;
 			delete nodeToDelete;
 
 		} //if 
-		else if (nodeToDelete == this->tail)
+		else if (nodeToDelete == tail)
 		{
 			// The node to delete is the tail node
 
 			// traverse LL to find node before tail
-			Node * it = this->head;
-			while (it->next != this->tail)
+			Node * it = head;
+			while (it->next != tail)
 			{
 				it = it->next;
 			}
@@ -145,7 +145,7 @@ public:
 			it->next = nullptr;
 
 			//Move tail one node back
-			this->tail = it;
+			tail = it;
 
 			delete nodeToDelete;
 
@@ -156,7 +156,7 @@ public:
 			// All other cases, where the nodeToDelete isn't the head or tail
 
 			// Traverse LL to make it point to the node before nodeToDelete
-			Node *it = this->head;
+			Node *it = head;
 			while (it->next != nodeToDelete)
 			{
 				it = it->next;
@@ -181,7 +181,7 @@ public:
 	//      data types
 	T maxValue()
 	{
-		Node * it = this->head;
+		Node * it = head;
 		T maxValue;
 
 		// Checking the edge case where the list is empty
@@ -219,7 +219,7 @@ public:
 	//      data types
 	T minValue()
 	{
-		Node * it = this->head;
+		Node * it = head;
 		T minValue;
 
 		// Checking the edge case where the list is empty
@@ -254,11 +254,11 @@ public:
 	{
 		// Two pointers act as iterators through the linked list
 		// Two are used to avoid losing our position after each delete
-		Node * temp = this->head;
-		node * current = this->head;
+		Node * temp = head;
+		node * current = head;
 
-		this->head = nullptr;
-		this->tail = nullptr;
+		head = nullptr;
+		tail = nullptr;
 
 		// Iterate through and delete all nodes
 		while (temp != nullptr)
