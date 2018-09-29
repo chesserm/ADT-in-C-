@@ -15,7 +15,7 @@ ADTs currently in this repository:
 
 
   - Linked List
-  - Doubly Linked List (still needs copy constructor and assignment operator overload)
+  - Doubly Linked List
   - Binary Search Tree (work in progress)
 
 

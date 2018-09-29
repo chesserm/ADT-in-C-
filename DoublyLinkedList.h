@@ -10,25 +10,59 @@ class DoublyLinkedList
 private:
 	struct Node
 	{	
+		// Data to be held in each node
 		T datum;
+		
+		// Pointer to next node
 		Node* next;
+
+		// Pointer to prev node
 		Node* prev;	
 	}; //struct Node
 
+	// Head (first) node in the doubly linked list
 	Node * head;
+
+	// Tail (last) node in the doubly linked list
 	Node * tail;
+
+	// Counter variable to track size of list
+	// Without this,  returning the size would 
+	// be O(n) time complexity
 	int size;
 
 public:
 
 	// Constructor
-	DoublyLinkedList()
-	{
-		head = nullptr;
-		tail = nullptr;
-		size = 0;
-	} //ctor
+	DoublyLinkedList() : head{nullptr}, tail{nullptr}, size{0} {}
 
+
+	// Copy constructor 
+	DoublyLinkedList(const DoublyLinkedList<T> & right) : head{nullptr}, tail{nullptr}, size{0}
+	{
+		// Delete all nodes that exist in the copy
+		deleteAll();
+
+		// Copy all nodes from original to copy
+		copyAll(right);
+	} //copy ctor
+
+
+	// Overloading assignment operator
+	DoublyLinkedList & operator=(const DoublyLinkedList<T> & right)
+	{
+		// Check if we're trying to self-assign
+		if (this == &right)
+		{
+			return *this;
+		} //if
+
+		deleteAll();
+		copyAll(right);
+
+		return *this;
+	} //operator=()
+	
 
 	// Adds a node to the doubly linked list
 	// Adds to the end by default
@@ -57,6 +91,19 @@ public:
 	} //addNode()
 	
 
+	// Helper function to copy all nodes from original
+	// list to copy list
+	void copyAll(const List<T> & original)
+	{
+		// Deep copy all nodes from the original
+		for (Node * it = original.head; it; it = it->next)
+		{
+			addNode(it->datum);
+		} //for
+
+	} //copyAll()
+
+
 	// Inserts a Node after the specified Node
 	// REQUIRES: the Node: insertNodeAfter, must be a valid Node and belong to a linked list
 	void insertNodeAfter(Node * insertNodeAfter, T input)
@@ -68,7 +115,7 @@ public:
 		temp->next = insertNodeAfter->next;
 		insertNodeAfter->next = temp;
 
-		size;
+		++size;
 
 	} //insertNodeAfter()
 
@@ -108,7 +155,7 @@ public:
 	// Returns the max value in the list
 	// Note: Does not return a pointer to the node containing
 	//       the max value, but just the value itself
-	T maxValue()
+	T & maxValue()
 	{
 		// This process is the same for single or doubly linked lists
 		Node * it = head;
@@ -146,7 +193,7 @@ public:
 	// Returns the min value in the list
 	// Note: Does not return a pointer to the node containing
 	//       the min value, but just the value itself
-	T minValue()
+	T & minValue()
 	{
 		// This process is the same for single or doubly linked lists
 		Node * it = head;
@@ -200,6 +247,15 @@ public:
 	// REQUIRED: nodeToDelete is a valid node in the list
 	void deleteNode(Node * nodeToDelete)
 	{
+
+		// Edge case where nodeToDelete is only node in the list
+		if (nodeToDelete == head && nodeToDelete == tail)
+		{
+			delete nodeToDelete;
+			head = nullptr;
+			tail = nullptr;
+		} //if
+
 		// Case where nodeToDelete is the head node
 		if (nodeToDelete == head)
 		{
@@ -238,39 +294,22 @@ public:
 	} //nodeToDelete()
 
 
+	// Deletes all nodes in the list
+	void deleteAll()
+	{
+		// Deletes all nodes in the list
+		while (!isEmpty())
+		{
+			deleteNode(front);
+		} //while
+
+	} //deleteAll()
+
+
 	// Destructor
 	~DoublyLinkedList()
 	{
-		if (isEmpty())
-		{
-			// Do nothing
-			// head and tail should point to nullptr
-
-		} //if
-		else
-		{
-			// Two pointers act as iterators through the linked list
-			// Two are used to avoid losing our position after each delete
-			Node * current = head;
-			Node * temp = head;
-			
-			// Good practice
-			head = nullptr;
-			tail = nullptr;
-
-			// Iterate through and delete all Nodes
-			while (it != nullptr)
-			{
-				temp = temp->next;
-				temp->prev = nullptr;
-
-				current->next = nullptr;
-				delete current;
-
-				current = temp;
-			} //while
-
-		} //else
+		deleteAll();
 	} //dtor
 
 }; //DoublyLinkedList class

@@ -24,7 +24,7 @@ private:
 	// Variable to hold size of linked list
 	// Without this variable, finding size
 	// would take O(n) time complexity
-	unsigned int size;
+	int size;
 
 public:
 
@@ -45,7 +45,7 @@ public:
 
 
 	// Overloading the assignment operator
-	List &operator=(const List<T> &right)
+	LinkedList &operator=(const LinkedList<T> &right)
 	{
 		// Check to see if we're trying to do a self assignment
 		if (this == &right)
@@ -65,7 +65,7 @@ public:
 
 	// Helper function to copy all nodes from the original list
 	// to the new list (used for operator=() and copy ctor)
-	void copyAll(const List<T> & original)
+	void copyAll(const LinkedList<T> & original)
 	{
 		// Copy all the nodes from the original to the copy		
 		for (Node * it = original.head; it; it = it->next)
