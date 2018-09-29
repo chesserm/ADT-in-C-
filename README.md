@@ -14,7 +14,7 @@ Additionally, this gives me a resource to use for personal projects, if I choose
 ADTs currently in this repository:
 
 
-  - Linked List (still needs copy constructor and assignment operator overload)
+  - Linked List
   - Doubly Linked List (still needs copy constructor and assignment operator overload)
   - Binary Search Tree (work in progress)
 

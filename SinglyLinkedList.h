@@ -9,30 +9,72 @@ class LinkedList
 private:
 	struct Node
 	{
+		// Template variable to hold the value
 		T datum;
+
+		// Pointer to point to the next node in the list
 		Node * next;
 	}; // struct Node
 	
+	// Pointer to head (first) node
 	Node* head; 
+	// Pointer to tail (last) node
 	Node *tail;
-	int size;
+
+	// Variable to hold size of linked list
+	// Without this variable, finding size
+	// would take O(n) time complexity
+	unsigned int size;
 
 public:
 
 	// Constructor
-	LinkedList()
-	{
-		head = nullptr;
-		tail = nullptr;
-		size = 0;
-	} //LinkedList() ctor
+	LinkedList() : head{nullptr}, tail{nullptr}, size{0} {}
 
 
 	//Copy Constructor
-	LinkedList()
+	LinkedList(const List<T> & right) : head{nullptr}, tail{nullptr}, size{0}
 	{
-		
+		// Delete every node that in the list that will become a copy
+		deleteAll();
+
+		// Copy all nodes over to the new copy list
+		copyAll(right);
+
 	} //copy ctor
+
+
+	// Overloading the assignment operator
+	List &operator=(const List<T> &right)
+	{
+		// Check to see if we're trying to do a self assignment
+		if (this == &right)
+		{
+			return *this;
+		} //if
+
+		// Delete nodes
+		deleteAll();
+
+		// Copy all nodes over to the copy
+		copyAll(right);
+
+		return *this;
+	} //&operator=()
+
+
+	// Helper function to copy all nodes from the original list
+	// to the new list (used for operator=() and copy ctor)
+	void copyAll(const List<T> & original)
+	{
+		// Copy all the nodes from the original to the copy		
+		for (Node * it = original.head; it; it = it->next)
+		{
+			addNode(it->datum);
+		} //for
+
+	} //copyAll()
+
 
 	// Adds a node to the linked list
 	// By default, the node is added to the back of the list
@@ -43,7 +85,7 @@ public:
 		temp->next = nullptr; 
 		
 		// Case where Linked List is empty
-		if (head == nullptr)
+		if (!head)
 		{
 			head = temp;
 			tail = temp;
@@ -83,14 +125,14 @@ public:
 	{
 		Node * temp = head;
 
-		
-		while (temp != nullptr)
+		// Print all nodes in the list
+		while (temp)
 		{
 			std::cout << temp->datum << " ---> ";
 			temp = temp->next;
 		} //while
 
-		std::cout << "NULL\n";
+		std::cout << "NULL" << std::endl;
 
 	} //printList()
 
@@ -117,10 +159,32 @@ public:
 	} //getHead()
 
 
+	// Returns a pointer to the tail Node of the list
+	Node * getTail()
+	{
+		return tail;
+	} //getTail()
+
+
 	// Deletes a specified Node from the linked list
-	// REQUIRED: nodeToDelete points to a Node within the linked list
 	void deleteNode(Node * nodeToDelete)
 	{
+
+		// Edge case where node to delete points to a nullptr
+		if (!nodeToDelete)
+		{
+			return;
+		} //if
+
+		// Edge case, where node to delete is the only node in the list
+		if (nodeToDelete == head && nodeToDelete == tail)
+		{
+			delete nodeToDelete;
+			head = nullptr;
+			tail = nullptr;
+		} //if
+
+		// If the node to delete is the head node
 		if(nodeToDelete == head)
 		{
 			// The nodeToDelete is the head node
@@ -130,10 +194,9 @@ public:
 			delete nodeToDelete;
 
 		} //if 
+		// The node to delete is the tail node
 		else if (nodeToDelete == tail)
 		{
-			// The node to delete is the tail node
-
 			// traverse LL to find node before tail
 			Node * it = head;
 			while (it->next != tail)
@@ -150,11 +213,9 @@ public:
 			delete nodeToDelete;
 
 
-		} //else if (nodeToDelete == tail)
+		} //else node is not the tail or head node
 		else
 		{
-			// All other cases, where the nodeToDelete isn't the head or tail
-
 			// Traverse LL to make it point to the node before nodeToDelete
 			Node *it = head;
 			while (it->next != nodeToDelete)
@@ -171,15 +232,28 @@ public:
 
 		} //else
 
+		// Decrement size by one
 		--size;
 	} //deleteNode()
+
+
+	// Delete all the nodes in the list
+	void deleteAll()
+	{
+		// While the list isn't empty delete the head node
+		while(!isEmpty())
+		{
+			deleteNode(head);
+		} //while
+
+	} //deleteAll()
 
 
 	// Returns the max value in the linked list
 	// Note: This does not return a pointer to the node with the max value,
 	//      just the value itself. Additionally, this works best for numerical
 	//      data types
-	T maxValue()
+	T & maxValue()
 	{
 		Node * it = head;
 		T maxValue;
@@ -217,7 +291,7 @@ public:
 	// Note: This does not return a pointer to the node with the min value,
 	//      just the value itself. Additionally, this works best for numerical
 	//      data types
-	T minValue()
+	T & minValue()
 	{
 		Node * it = head;
 		T minValue;
@@ -252,23 +326,7 @@ public:
 	// Linked list destructor
 	~LinkedList()
 	{
-		// Two pointers act as iterators through the linked list
-		// Two are used to avoid losing our position after each delete
-		Node * temp = head;
-		node * current = head;
-
-		head = nullptr;
-		tail = nullptr;
-
-		// Iterate through and delete all nodes
-		while (temp != nullptr)
-		{
-			temp = current->next;
-			current->next = nullptr;
-			delete current;
-			current = temp;
-		} //while
-
+		deleteAll();
 	} //dtor
 
 }; //LinkedList class
