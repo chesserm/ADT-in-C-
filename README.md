@@ -16,8 +16,9 @@ ADTs currently in this repository:
 
   - Linked List
   - Doubly Linked List
-  - Binary Search Tree (work in progress)
-
+  - Binary Search Tree*
 
 
 I will continue to add to this repository as I learn more Abstract Data Types, or as I think of a helpful function to add to a pre-existing implementation.
+
+*If you want to undesrtand conceptually how Binary Search Tree recursion works, see the file in the repo titled "BST Recursion Explained.txt". In which, I do my best to explain BST recursion throught the printInOrder() function.
